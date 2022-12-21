@@ -1,0 +1,36 @@
+name: Upload S3
+description: 'Upload wheels to alternative PyPI index'
+inputs:
+  aws_key_id:
+    description: 'aws key id'
+    required: true
+  aws_secret_access_key:
+    description: 'aws secret access key'
+    required: true
+  aws_bucket:
+    description: 'aws bucket name'
+    required: true
+  aws_region:
+    description: 'aws region'
+    default: us-east-1
+    required: false
+  aws_distribution_id:
+    description: 'cloudfront distribution'
+    required: false
+  source_dir:
+    required: true
+    description: 'directory to upload'
+  package:
+    required: true
+    description: 'package name'
+  destination_dir:
+    required: false
+    description: 'destination directory for upload'
+outputs:
+  object_key:
+    description: 'object key'
+  object_locations:
+    description: 'object locations'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
