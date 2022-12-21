@@ -69375,7 +69375,7 @@ function make_url(key) {
 
 async function upload_index() {
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("uploading index.html");
-  const path = `${PACKAGE}/index.html`;
+  const path = `${PACKAGE.toLowerCase()}/index.html`;
   const resp = await s3.listObjects({
     Bucket: BUCKET,
     Prefix: PACKAGE,

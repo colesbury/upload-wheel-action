@@ -82,7 +82,7 @@ function make_url(key) {
 
 async function upload_index() {
   core.info("uploading index.html");
-  const path = `${PACKAGE}/index.html`;
+  const path = `${PACKAGE.toLowerCase()}/index.html`;
   const resp = await s3.listObjects({
     Bucket: BUCKET,
     Prefix: PACKAGE,
