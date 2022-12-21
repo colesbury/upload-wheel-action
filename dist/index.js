@@ -69379,6 +69379,7 @@ async function upload_index() {
   const resp = await s3.listObjects({
     Bucket: BUCKET,
     Prefix: PACKAGE,
+    Delimiter: "/",
   });
   
   const keys = [];
