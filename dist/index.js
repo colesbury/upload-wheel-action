@@ -69458,18 +69458,22 @@ ${keys.map(make_url).join('\n')}
 
 async function invalidate_paths() {
   if (!DISTRIBUTION_ID) {
+    console.log("no cloudfront distribution to invalidate");
     return;
   }
-  await cloudfront.createInvalidation({
+  const paths = modified_keys.map(p => `/${p}`);
+  console.log(`invalidating: ${paths}`);
+  const resp = await cloudfront.createInvalidation({
     DistributionId: DISTRIBUTION_ID,
     InvalidationBatch: {
       Paths: {
-        Quantity: modified_keys.length,
-        Items: modified_keys.map(p => `/${p}`),
+        Quantity: paths.length,
+        Items: paths,
       },
       CallerReference: Date.now().toString(),
     }
   });
+  console.log(resp);
 }
 
 try {
