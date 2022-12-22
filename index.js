@@ -71,7 +71,7 @@ async function upload_wheels() {
       Key: bucketPath,
       ContentType: lookup(p.path) || 'text/plain',
     });
-    modified_keys.push(bucketPath);
+    modified_keys.push(`/${bucketPath}`);
     return bucketPath;
   }));
 }
@@ -122,7 +122,7 @@ ${keys.map(make_url).join('\n')}
     ContentType: 'text/html',
   });
 
-  modified_keys.push(path);
+  modified_keys.push(`/${path.replace('index.html', '')}`);
 
   if (!prev_exists) {
     await upload_top_index();
@@ -160,7 +160,7 @@ ${keys.map(make_url).join('\n')}
     ContentType: 'text/html',
   });
 
-  modified_keys.push("index.html")
+  modified_keys.push("/");
 }
 
 async function invalidate_paths() {
@@ -168,19 +168,19 @@ async function invalidate_paths() {
     console.log("no cloudfront distribution to invalidate");
     return;
   }
-  const paths = modified_keys.map(p => `/${p}`);
-  console.log(`invalidating: ${paths}`);
-  const resp = await cloudfront.createInvalidation({
+  for (const path of modified_keys) {
+    console.log(`invalidating: ${path}`);
+  }
+  await cloudfront.createInvalidation({
     DistributionId: DISTRIBUTION_ID,
     InvalidationBatch: {
       Paths: {
-        Quantity: paths.length,
-        Items: paths,
+        Quantity: modified_keys.length,
+        Items: modified_keys,
       },
       CallerReference: Date.now().toString(),
     }
   });
-  console.log(resp);
 }
 
 try {
