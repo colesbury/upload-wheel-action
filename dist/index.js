@@ -69346,7 +69346,10 @@ const cloudfront = new _aws_sdk_client_cloudfront__WEBPACK_IMPORTED_MODULE_6__.C
 
 const destinationDir = DESTINATION_DIR;
 const paths = klaw_sync__WEBPACK_IMPORTED_MODULE_3__(SOURCE_DIR, {
-  nodir: true
+  nodir: true,
+  filter: (item) => {
+    return item.path.endsWith(".whl");
+  }
 });
 
 const modified_keys = []

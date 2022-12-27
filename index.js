@@ -53,7 +53,10 @@ const cloudfront = new CloudFront({
 
 const destinationDir = DESTINATION_DIR;
 const paths = klawSync(SOURCE_DIR, {
-  nodir: true
+  nodir: true,
+  filter: (item) => {
+    return item.path.endsWith(".whl");
+  }
 });
 
 const modified_keys = []
