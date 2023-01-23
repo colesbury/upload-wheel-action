@@ -91,6 +91,10 @@ async function upload_index() {
     Prefix: PACKAGE,
     Delimiter: "/",
   });
+
+  if (!resp.Contents) {
+    throw new Error(`No response. Is the package "${PACKAGE}" correct?`);
+  }
   
   const keys = [];
   for (const obj of resp.Contents) {
